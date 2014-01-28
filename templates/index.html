@@ -9,7 +9,7 @@
 <div class="panel panel-default">
 	<div class="panel-heading">
 		{% if logged_in -%}<button type="submit" class="close">×</button>{%- endif %}
-		<h3 class="panel-title">Posted by {{ name }} on {{ posted_at }}</h3>
+		<h3 class="panel-title">Posted by {{ name }} on <span class="format-date">{{ posted_at }}</span></h3>
 	</div>
 	<div class="panel-body">
 		{{ entry }}
@@ -45,4 +45,18 @@
 		</form>
 	</div>
 </div>
+
+<script src="//assets.nyw.li/js/moment.min.js"></script>
+<script>
+(function() {
+	var dates = document.getElementsByClassName('format-date');
+
+	for(var i = 0; i < dates.length; i++) {
+		var date = dates[i];
+		var m = moment.utc(date.innerText);
+
+		date.innerText = m.fromNow();
+	}
+})();
+</script>
 {% endblock %}
