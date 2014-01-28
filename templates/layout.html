@@ -1,19 +1,34 @@
-<!doctype html>
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-<div style="border: 1px solid #000">
-  <h3>Messages</h3>
-  <ul>
-    {% for message in messages %}
-    <li>{{ message }}</li>
-    {% endfor %}
-  </ul>
-</div>
-{% endif %}
-{% endwith %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Guestbook</title>
+	<meta name="viewport" content="width=device-width">
+	<link rel="stylesheet" href="//assets.nyw.li/css/bootstrap-3.0.0/flatly.min.css">
+	<style>
+	.container {
+		margin-top: 15px;
+	}
+	</style>
+</head>
+<body>
+	<div class="container">
+		{% with messages = get_flashed_messages() %}
+		{% if messages %}
+		<div class="row">
+			<div class="col-md-offset-2 col-md-8">
+				<div class="alert alert-info">
+					<ul class="list-unstyled">
+						{% for message in messages %}
+						<li>{{ message }}</li>
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+		{% endwith %}
 
-{% if session['logged_in'] -%}
-<p><em>Logged in as the admin.</em></p>
-{%- endif %}
-
-{% block body %}{% endblock %}
+		{% block body %}{% endblock %}
+	</div>
+</body>
+</html>

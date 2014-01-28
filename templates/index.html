@@ -4,26 +4,45 @@
 
 {% with logged_in = session['logged_in'] %}
 {% if logged_in %}<form action="/moderate" method="POST">{% endif %}
-{% for name, date, entry in entries %}
-<p>{{ entry }}</p>
-<p>&mdash;<em>{{ name }}</em> on {{ date }}</p>
-{% if logged_in -%}
-  <p>
-    {% with name = "remove_%d" % loop.index0 -%}
-    <input type="checkbox" id="{{ name }}" name="{{ name }}" value="yes">
-    <label for="{{ name }}">Remove this entry</label>
-    {%- endwith %}
-  </p>
-{%- endif %}
-<hr>
+{% for id, name, entry, posted_at in entries %}
+<input type="hidden" name="id" value="{{ id }}">
+<div class="panel panel-default">
+	<div class="panel-heading">
+		{% if logged_in -%}<button type="submit" class="close">×</button>{%- endif %}
+		<h3 class="panel-title">Posted by {{ name }} on {{ posted_at }}</h3>
+	</div>
+	<div class="panel-body">
+		{{ entry }}
+	</div>
+</div>
 {% endfor %}
 {% if logged_in %}</form>{% endif %}
 {% endwith %}
 
-<form action="/submit" method="POST">
-  <p>Submit an entry!</p>
-  <p><label for="name">Your name</label> <input type="text" name="name"></p>
-  <textarea name="entry" rows="10" cols="80"></textarea>
-  <p><input type="submit" value="Submit"></p>
-</form>
+<div class="row">
+	<div class="col-md-12">
+		<h2>Add an entry</h2>
+		<form action="/submit" method="POST" class="form-horizontal">
+			<div class="form-group">
+				<label for="name" class="col-sm-2 control-label">Name</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" name="name" placeholder="Name">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="entry" class="col-sm-2 control-label">Entry</label>
+				<div class="col-sm-10">
+					<textarea class="form-control" name="entry" rows="5" placeholder="Entry"></textarea>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-default">Add</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
 {% endblock %}
