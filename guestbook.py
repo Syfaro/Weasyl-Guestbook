@@ -9,8 +9,6 @@ app = Flask(__name__)
 DATABASE = os.getcwd() + os.sep + 'guestbook.db'
 
 
-print DATABASE
-
 def get_database():
     return sqlite3.connect(DATABASE)
 
